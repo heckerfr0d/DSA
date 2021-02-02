@@ -64,6 +64,7 @@ node insert(tree T, int k)
             {
                 t->left = x;
                 x->p = t;
+                free(q->A);
                 return T->root;
             }
             if(t->right)
@@ -72,6 +73,7 @@ node insert(tree T, int k)
             {
                 t->right = x;
                 x->p = t;
+                free(q->A);
                 return T->root;
             }
             t = deq(q);
