@@ -17,6 +17,7 @@ node createTree(char*, int, int);
 int findEnd(char*, int, int);
 int getNum(char*, int*);
 int kSmallest(tree, int);
+int getKsmall(node, int*);
 node search(tree, int);
 node min(node);
 node predecessor(tree, int);
@@ -31,16 +32,25 @@ int main()
     int n = strlen(s), k;
     T->root = createTree(s, 2, n-2);
     scanf("%d", &k);
-    printf("%d\n", kSmallest(T, k));
+    printf("%d\n", kSmallest(T, k+1));
     return 0;
 }
 
 int kSmallest(tree T, int k)
 {
-    node x = min(T->root);
-    while(k--)
-        x = successor(T, x);
-    return x->key;
+    return getKsmall(T->root, &k);
+}
+
+int getKsmall(node x, int *k)
+{
+    if(!x)
+        return 0;
+    int l = getKsmall(x->left, k);
+    if(l)
+        return l;
+    if(!(--(*k)))
+        return x->key;
+    return getKsmall(x->right, k);
 }
 
 node createNode(int c)
@@ -107,27 +117,4 @@ int findEnd(char* s, int start, int end)
             return i;
     }
     return -1;
-}
-
-node min(node x)
-{
-    node t = x;
-    while(t->left)
-        t = t->left;
-    return t;
-}
-
-node successor(tree T, node x)
-{
-    if(!x)
-        return NULL;
-    if(x->right)
-        return min(x->right);
-    node y = x->p;
-    while(y && x==y->right)
-    {
-        x = y;
-        y = y->p;
-    }
-    return y;
 }

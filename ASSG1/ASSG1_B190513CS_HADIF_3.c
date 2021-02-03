@@ -16,9 +16,6 @@ typedef struct bst{
     int s, c, min, max, is;
 } deets;
 
-
-int n;
-
 deets findBST(node, int);
 node createTree(char*, int, int);
 int getNum(char*, int*);
@@ -33,7 +30,7 @@ int main()
     char s[1000];
     int k;
     fgets(s, 1000, stdin);
-    n = strlen(s);
+    int n = strlen(s);
     T->root = createTree(s, 2, n-2);
     scanf("%d", &k);
     deets d = findBST(T->root, k);
