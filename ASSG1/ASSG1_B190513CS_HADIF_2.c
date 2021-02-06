@@ -46,9 +46,9 @@ node createTree(char* s, int start, int end)
         return NULL;
     node root = NULL;
     int f = 0;
-    if(isdigit(s[start]))
+    if(isdigit(s[start]) || s[start]=='-')
     {
-        root = createNode(getNum(s, &start));
+        root = createTreeNode(getNum(s, &start));
         f = 1;
     }
     if(s[start]==' ')
@@ -161,8 +161,16 @@ void printC(tree T, int k)
 int getNum(char* s, int* i)
 {
     int num = 0;
+    int neg = 0;
+    if(s[*i]=='-')
+    {
+	neg = 1;
+	(*i)++;
+    }
     while(isdigit(s[*i]))
         num = num*10 + (s[(*i)++]-'0');
+    if(neg)
+	return -num;
     return num;
 }
 
