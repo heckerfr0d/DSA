@@ -41,8 +41,14 @@ node createBST(int* a, int start, int end)
         return NULL;
     int m = (start+end)/2;
     node x = createNode(a[m]);
-    x->left = createBST(a, start, m-1);
-    x->right = createBST(a, m+1, end);
+    node t = createBST(a, start, m-1);
+    x->left = t;
+    if(t)
+        t->p = x;
+    t = createBST(a, m+1, end);
+    x->right = t;
+    if(t)
+        t->p = x;
     return x;
 }
 
