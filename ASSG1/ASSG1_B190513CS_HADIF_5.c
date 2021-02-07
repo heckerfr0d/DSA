@@ -12,17 +12,12 @@ typedef struct bst{
     node root;
 } *tree;
 
+int kSmallest(tree, int);
+int getKsmall(node, int*);
 node createNode(int);
 node createTree(char*, int, int);
 int findEnd(char*, int, int);
 int getNum(char*, int*);
-int kSmallest(tree, int);
-int getKsmall(node, int*);
-node search(tree, int);
-node min(node);
-node predecessor(tree, int);
-node successor(tree, node);
-
 
 int main()
 {
@@ -32,7 +27,7 @@ int main()
     int n = strlen(s), k;
     T->root = createTree(s, 2, n-2);
     scanf("%d", &k);
-    printf("%d\n", kSmallest(T, k+1));
+    printf("%d\n", kSmallest(T, k));
     return 0;
 }
 

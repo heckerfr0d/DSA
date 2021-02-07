@@ -56,6 +56,15 @@ node createNode(int c)
     return x;
 }
 
+void getLsum(node x, int* sum, int l)
+{
+    if(!x)
+        return;
+    sum[l] += x->key;
+    getLsum(x->left, sum, l+1);
+    getLsum(x->right, sum, l+1);
+}
+
 void print(tree T)
 {
     struct bst t;
@@ -70,13 +79,4 @@ void print(tree T)
         print(&t);
     }
     printf(") ");
-}
-
-void getLsum(node x, int* sum, int l)
-{
-    if(!x)
-        return;
-    sum[l] += x->key;
-    getLsum(x->left, sum, l+1);
-    getLsum(x->right, sum, l+1);
 }

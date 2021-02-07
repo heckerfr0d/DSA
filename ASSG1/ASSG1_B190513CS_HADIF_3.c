@@ -17,12 +17,12 @@ typedef struct bst{
 } deets;
 
 deets findBST(node, int);
-node createTree(char*, int, int);
-int getNum(char*, int*);
-int findEnd(char*, int, int);
-node createNode(int);
 int min(int, int, int);
 int max(int, int, int);
+node createTree(char*, int, int);
+node createNode(int);
+int getNum(char*, int*);
+int findEnd(char*, int, int);
 
 int main()
 {
@@ -31,10 +31,13 @@ int main()
     int k;
     fgets(s, 1000, stdin);
     int n = strlen(s);
-    T->root = createTree(s, 2, n-2);
+    T->root = createTree(s, 2, n-3);
     scanf("%d", &k);
     deets d = findBST(T->root, k);
-    printf("%d %d %d %d", d.c, d.s, d.max, d.min);
+    if(d.c)
+        printf("%d\n", d.c);
+    else
+        printf("-1\n");
     return 0;
 }
 
@@ -75,6 +78,16 @@ deets findBST(node t, int k)
     return d;
 }
 
+int min(int a, int b, int c)
+{
+    return (a<b ? a<c ? a : c : b<c ? b : c);
+}
+
+int max(int a, int b, int c)
+{
+    return (a>b ? a>c ? a : c : b>c ? b : c);
+}
+
 node createTree(char* s, int start, int end)
 {
     if(start>end)
@@ -113,28 +126,18 @@ node createNode(int k)
     return x;
 }
 
-int min(int a, int b, int c)
-{
-    return (a<b ? a<c ? a : c : b<c ? b : c);
-}
-
-int max(int a, int b, int c)
-{
-    return (a>b ? a>c ? a : c : b>c ? b : c);
-}
-
 int getNum(char* s, int* i)
 {
     int num = 0, neg = 0;
     if(s[*i]=='-')
     {
-	neg = 1;
-	(*i)++;
+        neg = 1;
+        (*i)++;
     }
     while(isdigit(s[*i]))
         num = num*10 + (s[(*i)++]-'0');
     if(neg)
-	return -num;
+	    return -num;
     return num;
 }
 

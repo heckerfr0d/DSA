@@ -11,15 +11,17 @@ typedef struct bst{
 } *tree;
 
 node createNode(int);
-node search(tree, int);
-node min(node);
-node max(node);
-int predecessor(tree, int);
-int successor(tree, int);
-int level(tree, int);
-int delete(tree, node);
 void insert(tree, node);
 void transplant(tree, node, node);
+int delete(tree, node);
+node search(tree, int);
+int level(tree, int);
+node min(node);
+int minVal(tree);
+node max(node);
+int maxVal(tree);
+node predecessor(tree, int);
+node successor(tree, int);
 void inOrder(tree);
 void preOrder(tree);
 void postOrder(tree);
@@ -27,6 +29,7 @@ void postOrder(tree);
 int main()
 {
     tree T = (tree)malloc(sizeof(tree));
+    node x;
     T->root = NULL;
     char c;
     do
@@ -52,18 +55,20 @@ int main()
             printf("%d\n", level(T, k));
             break;
         case 'm':
-            printf("%d\n", min(T->root)->key);
+            printf("%d\n", minVal(T));
             break;
         case 'x':
-            printf("%d\n", max(T->root)->key);
+            printf("%d\n", maxVal(T));
             break;
         case 'r':
             scanf("%d", &k);
-            printf("%d\n", predecessor(T, k));
+            x = predecessor(T, k);
+            x ? printf("%d\n", x->key) : printf("-1\n");
             break;
         case 'u':
             scanf("%d", &k);
-            printf("%d\n", successor(T, k));
+            x = successor(T, k);
+            x ? printf("%d\n", x->key) : printf("-1\n");
             break;
         case 'i':
             inOrder(T);
@@ -111,84 +116,6 @@ void insert(tree T, node x)
     x->p = y;
 }
 
-node search(tree T, int k)
-{
-    node t = T->root;
-    while(t && t->key!=k)
-    {
-        if(k>t->key)
-            t = t->right;
-        else
-            t = t->left;
-    }
-    return t;
-}
-
-node min(node x)
-{
-    node t = x;
-    while(t->left)
-        t = t->left;
-    return t;
-}
-
-node max(node x)
-{
-    node t = x;
-    while(t->right)
-        t = t->right;
-    return t;
-}
-
-int predecessor(tree T, int k)
-{
-    node x = search(T, k);
-    if(!x)
-        return -1;
-    if(x->left)
-        return max(x->left)->key;
-    node y = x->p;
-    while(y && x==y->left)
-    {
-        x = y;
-        y = y->p;
-    }
-    return y->key;
-}
-
-int successor(tree T, int k)
-{
-    node x = search(T, k);
-    if(!x)
-        return -1;
-    if(x->right)
-        return min(x->right)->key;
-    node y = x->p;
-    while(y && x==y->right)
-    {
-        x = y;
-        y = y->p;
-    }
-    return y->key;
-}
-
-int getlevel(node x, int k, int cl)
-{
-    if(!x)
-        return -1;
-    if(x->key==k)
-        return cl;
-    int pl = getlevel(x->left, k, cl+1);
-    if(pl!=-1)
-        return pl;
-    return getlevel(x->right, k, cl+1);
-}
-
-int level(tree T, int k)
-{
-    return getlevel(T->root, k, 1);
-}
-
 void transplant(tree T, node x, node y)
 {
     if(!x->p)
@@ -225,6 +152,94 @@ int delete(tree T, node x)
     int k = x->key;
     free(x);
     return k;
+}
+
+node search(tree T, int k)
+{
+    node t = T->root;
+    while(t && t->key!=k)
+    {
+        if(k>t->key)
+            t = t->right;
+        else
+            t = t->left;
+    }
+    return t;
+}
+
+int getlevel(node x, int k, int cl)
+{
+    if(!x)
+        return -1;
+    if(x->key==k)
+        return cl;
+    int pl = getlevel(x->left, k, cl+1);
+    if(pl!=-1)
+        return pl;
+    return getlevel(x->right, k, cl+1);
+}
+
+int level(tree T, int k)
+{
+    return getlevel(T->root, k, 1);
+}
+
+node min(node x)
+{
+    node t = x;
+    while(t->left)
+        t = t->left;
+    return t;
+}
+
+int minVal(tree T)
+{
+    return min(T->root)->key;
+}
+
+node max(node x)
+{
+    node t = x;
+    while(t->right)
+        t = t->right;
+    return t;
+}
+
+int maxVal(tree T)
+{
+    return max(T->root)->key;
+}
+
+node predecessor(tree T, int k)
+{
+    node x = search(T, k);
+    if(!x)
+        return NULL;
+    if(x->left)
+        return max(x->left);
+    node y = x->p;
+    while(y && x==y->left)
+    {
+        x = y;
+        y = y->p;
+    }
+    return y;
+}
+
+node successor(tree T, int k)
+{
+    node x = search(T, k);
+    if(!x)
+        return NULL;
+    if(x->right)
+        return min(x->right);
+    node y = x->p;
+    while(y && x==y->right)
+    {
+        x = y;
+        y = y->p;
+    }
+    return y;
 }
 
 void inOrder(tree T)

@@ -19,10 +19,10 @@ typedef struct queue{
 
 int n;
 
+node createNode(int);
 node createTree(char*, int, int);
 int getNum(char*, int*);
 int findEnd(char*, int, int);
-node createNode(int);
 void printC(tree, int);
 void enq(Q, node);
 node deq(Q);
@@ -38,6 +38,14 @@ int main()
     scanf("%d", &k);
     printC(T, k);
     return 0;
+}
+
+node createNode(int k)
+{
+    node x = (node)malloc(sizeof(struct bNode));
+    x->key = k;
+    x->left = x->right = x->p = NULL;
+    return x;
 }
 
 node createTree(char* s, int start, int end)
@@ -70,48 +78,11 @@ node createTree(char* s, int start, int end)
     return root;
 }
 
-node createNode(int k)
-{
-    node x = (node)malloc(sizeof(struct bNode));
-    x->key = k;
-    x->left = x->right = x->p = NULL;
-    return x;
-}
-
-void enq(Q Q, node k)
-{
-    if(Q->head==-1)
-    {
-        Q->A[++Q->head] = k;
-        Q->tail = 1;
-    }
-    else if(Q->head!=Q->tail && Q->head!=-1)
-    {
-        Q->A[Q->tail] = k;
-        Q->tail = (Q->tail+1)%(n/2);
-    }
-    else
-        printf("-1\n");
-}
-
-node deq(Q Q)
-{
-    if(Q->head!=-1)
-    {
-        int t = Q->head;
-        Q->head = (Q->head+1)%(n/2);
-        if(Q->head==Q->tail)
-            Q->head = Q->tail = -1;
-        return Q->A[t];
-    }
-    return NULL;
-}
-
 void printC(tree T, int k)
 {
     node t = T->root;
     Q q = (Q)malloc(sizeof(struct queue));
-    q->A = (node*)malloc((n/2)*sizeof(node));
+    q->A = (node*)malloc((n/4)*sizeof(node));
     q->head = q->tail = -1;
     int f = 0;
     if(t->key==k)
@@ -160,17 +131,16 @@ void printC(tree T, int k)
 
 int getNum(char* s, int* i)
 {
-    int num = 0;
-    int neg = 0;
+    int num = 0, neg = 0;
     if(s[*i]=='-')
     {
-	neg = 1;
-	(*i)++;
+        neg = 1;
+        (*i)++;
     }
     while(isdigit(s[*i]))
         num = num*10 + (s[(*i)++]-'0');
     if(neg)
-	return -num;
+	    return -num;
     return num;
 }
 
@@ -189,4 +159,33 @@ int findEnd(char* s, int start, int end)
             return i;
     }
     return -1;
+}
+
+void enq(Q Q, node k)
+{
+    if(Q->head==-1)
+    {
+        Q->A[++Q->head] = k;
+        Q->tail = 1;
+    }
+    else if(Q->head!=Q->tail && Q->head!=-1)
+    {
+        Q->A[Q->tail] = k;
+        Q->tail = (Q->tail+1)%(n/4);
+    }
+    else
+        printf("-1\n");
+}
+
+node deq(Q Q)
+{
+    if(Q->head!=-1)
+    {
+        int t = Q->head;
+        Q->head = (Q->head+1)%(n/4);
+        if(Q->head==Q->tail)
+            Q->head = Q->tail = -1;
+        return Q->A[t];
+    }
+    return NULL;
 }
