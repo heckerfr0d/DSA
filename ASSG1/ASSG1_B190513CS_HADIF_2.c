@@ -70,7 +70,7 @@ node createTree(char* s, int start, int end)
         root->left = t;
         if(t)
             t->p = root;
-        t = createTree(s, i+4, end);
+        t = createTree(s, i+4, end-2);
         root->right = t;
         if(t)
             t->p = root;
