@@ -56,7 +56,7 @@ node createTree(char* s, int start, int end)
     int f = 0;
     if(isdigit(s[start]) || s[start]=='-')
     {
-        root = createTreeNode(getNum(s, &start));
+        root = createNode(getNum(s, &start));
         f = 1;
     }
     if(s[start]==' ')
