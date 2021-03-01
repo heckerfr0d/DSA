@@ -22,7 +22,6 @@ node createNode(int);
 node createTree(char*, int, int);
 int findEnd(char*, int, int);
 int getNum(char*, int*);
-int c = 0;
 
 int main()
 {
@@ -83,10 +82,21 @@ int getKsmall(node x, int *k)
     return getKsmall(x->right, k);
 }
 
+int getKlarge(node x, int *k)
+{
+    if(!x)
+        return -1000001;
+    int r = getKlarge(x->right, k);
+    if(r!=-1000001)
+        return r;
+    if(!(--(*k)))
+        return x->key;
+    return getKlarge(x->left, k);
+}
+
 int kLargest(tree T, int k)
 {
-    int k1 = c-k+1;
-    return getKsmall(T->root, &k1);
+    return getKlarge(T->root, &k);
 }
 
 
@@ -198,7 +208,6 @@ node createTree(char* s, int start, int end)
     {
         root = createNode(getNum(s, &start));
         f = 1;
-        c++;
     }
     if(s[start]==' ')
         ++start;
