@@ -24,6 +24,7 @@ heap reverse(heap);
 heap search(heap, int);
 void enq(Q, heap);
 heap deq(Q);
+void udayip(heap);
 void print(heap);
 
 int main()
@@ -254,17 +255,22 @@ void print(heap H)
     Q q = (Q)malloc(sizeof(struct queue));
     q->A = (heap*)calloc(500009, sizeof(heap));
     q->head = q->tail = -1;
-    heap t = H;
-    enq(q, t);
-    while(t = deq(q))
+    heap t = H, t1 = NULL;
+    while(t)
     {
-        while(t)
+        printf("%d ", t->key);
+        enq(q, t->child);
+        while(t1 = deq(q))
         {
-            printf("%d ", t->key);
-            if(t->child)
-                enq(q, t->child);
-            t = t->sibling;
+            while(t1)
+            {
+                printf("%d ", t1->key);
+                if(t1->child)
+                    enq(q, t1->child);
+                t1 = t1->sibling;
+            }
         }
+        t = t->sibling;
     }
 }
 
