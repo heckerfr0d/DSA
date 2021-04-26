@@ -24,7 +24,6 @@ heap reverse(heap);
 heap search(heap, int);
 void enq(Q, heap);
 heap deq(Q);
-void udayip(heap);
 void print(heap);
 
 int main()
@@ -124,7 +123,6 @@ heap merge(heap H1, heap H2)
     if(H2)
         t->sibling = H2;
     return H3->sibling;
-
 }
 
 heap Union(heap H1, heap H2)

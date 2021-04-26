@@ -13,7 +13,6 @@ typedef node tree;
 
 node createNode(int);
 tree insert(tree, node);
-node subInsert(node, node);
 node leftRotate(tree, node);
 node rightRotate(tree, node);
 int getBalance(tree, int);
